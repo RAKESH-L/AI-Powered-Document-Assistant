@@ -1,0 +1,312 @@
+<!-- <div class="chat-container">
+    <div class="side-menu flex-lg-column">
+        <img src="assets/images/logo.svg" alt="" height="30">
+        <i class="bi bi-person-badge" (click)="showProfile()"></i>
+        <i class="bi bi-discord" (click)="showDiscordWindow()"></i>
+
+        <img 
+          src="assets/images/avatar-1.jpg" 
+          alt="Bottom Icon" 
+          class="bottom-icon" 
+          (click)="togglePopup()"
+        >
+        
+        <div class="popup-window" *ngIf="isPopupVisible">
+            <ul>
+                <li (click)="doAction1()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Profile</div>
+                      <div class="col-2"><i class="bi bi-person"></i></div>
+                    </div>
+                  </div></li>
+                <li (click)="doAction2()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Change Password</div>
+                      <div class="col-2"><i class="bi bi-shield-lock"></i></div>
+                    </div>
+                  </div></li>
+                  <hr>
+                <li (click)="doAction3()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Logout</div>
+                      <div class="col-2"><i class="bi bi-box-arrow-left"></i></div>
+                    </div>
+                  </div></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar2" >
+      <div class="container" *ngIf="!isProfileVisible">
+        <div class="row sidebar2-header">
+          <div class="col sidebar2-title">My Profile</div>
+          <div class="col-auto">
+            <i class="bi bi-three-dots-vertical"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col profile-image-container">
+            <img src="assets/images/avatar-1.jpg" alt="Profile Image" class="profile-image">
+          </div>
+        </div>
+        <div class="container">
+            <div class="row">
+              <div class="col name">Narnia</div>
+              <div class="w-100"></div>
+              <div class="col name1">active</div>
+            </div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="row icon ">
+              <p class="col profile-intro">A professional profile is an introductory section on your resume that highlights your relevant qualifications and skills.</p>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon ">
+              <div class="col-2 profile-icon" ><i class="bi bi-person-check"></i></div>
+              <div class="col-9 profile-info">Narnia</div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-phone"></i></div>
+              <div class="col-9 profile-info">123456789</div>
+              
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-mailbox"></i></div>
+              <div class="col-9 profile-info">examplegmail.com</div>
+              
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-geo"></i></div>
+              <div class="col-9 profile-info">califonia, USA</div>
+              
+            </div>
+          </div>
+      </div>
+
+      <div class="sidebar2-header" *ngIf="isDiscordWindowVisible">
+        <i class="bi bi-discord"></i> Discord
+      </div>
+    </div>
+
+    <div class="chat-area">
+        <div class="chat-top-row d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <img src="assets/images/logo.svg" alt="Icon" class="top-row-icon ">
+              <p class="mb-0">ChatBot</p>
+            </div>
+            
+            <div class="ml-auto">
+
+              <i class=" bi bi-gear-fill fa-solid fa-cog fa-spin" style="font-size: 1.1rem; cursor: pointer; color: #06D6A0; margin-right: 10px;" (click)="openSettings()"></i>
+            </div>
+          </div>
+      
+        <div class="chat-window">
+
+        <div class="chatbot-body flex-grow-1 p-3 overflow-auto">
+
+            <div *ngFor="let message of messages" class="chat-message d-flex justify-content-end mb-4" [ngClass]="{'chat-message d-flex justify-content-end mb-4': message.isUser, 'chat-message': !message.isUser}">
+              <div class="user-message alert" *ngIf="message.isUser; else botMessage">
+                {{ message.text }}
+              </div>
+          
+            <ng-template #botMessage>
+              <div class="bot-message-container d-flex">
+                <img src="assets/images/bot.jpg" alt="Bot Avatar" class="bot-avatar">
+                <div class="bot-message alert">
+                  {{ message.text }}
+                  <div *ngIf="showOptions" class="mt-2">
+                    <div class="btn-group-vertical" role="group">
+                      <button class="btn btn-custom mb-2" *ngFor="let option of options" (click)="selectOption(option)">
+                        {{ option }}
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </ng-template>            
+          </div>
+        </div>
+
+          <div *ngIf="showProductOptions" >
+            <img src="assets/images/bot.jpg" alt="Bot Avatar" class="bot-avatar">
+            <div class="mt-4 bot-message alert">
+              You selected Product queries. Here are your options:
+              <br>
+              <br>
+            <div class="btn-group-vertical" role="group" >
+              
+              <button class="btn btn-custom mb-2" *ngFor="let option of productOptions" (click)="selectProductOption(option)">
+                
+                {{ option }}
+              </button>
+            </div>
+          </div>
+        </div>
+          
+      
+          <div *ngIf="showAdditionalOptions" class="additional-options transition-fade ">
+            <div class="option " *ngFor="let option of additionalOptions">
+              <button class="btn btn-outline-secondary btn-block mb-2" (click)="handleOptionSelection(option)">
+                {{ option }}
+              </button>
+            </div>
+          </div>
+    
+          <div *ngIf="showBooleanOptions" class="boolean-options transition-fade ">
+            <div class="option " *ngFor="let option of booleanOptions">
+              <button class="btn btn-outline-secondary btn-block mb-2 " (click)="handleCancelOrder(option)">
+                {{ option }}
+              </button>
+            </div>
+          </div>
+
+        
+
+        <div *ngIf="showOrderOptions" class="order-options transition-fade">
+          <div class="option" *ngFor="let option of orderOptions">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectOrderOption(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+    
+        
+    
+        <div *ngIf="showProductComparision" class="product-options transition-fade">
+          <div class="option" *ngFor="let option of productComparision">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectProductComparision(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+  
+        <div *ngIf="showDropdowns">
+          <label for="productDropdown1">Select the first product:</label>
+          <select id="productDropdown1" (change)="selectProduct1($event)">
+            <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
+          </select>
+        
+          <label for="productDropdown2">Select the second product:</label>
+          <select id="productDropdown2" (change)="selectProduct2($event)">
+            <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
+          </select>
+        
+          <button (click)="compareProducts()">Compare</button>
+        </div>
+  
+        <div *ngIf="showReturnOptions" class="return-options transition-fade">
+          <div class="option" *ngFor="let option of returnOptions">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectReturnOption(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+    
+        <div *ngIf="showShoppingAdviceOptions" class="shopping-advice-options transition-fade">
+          <div class="option" *ngFor="let option of shoppingAdviceOptions">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectShoppingAdviceOption(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+    
+        <div *ngIf="showCustomerServiceOptions" class="customer-service-options transition-fade">
+          <div class="option" *ngFor="let option of customerServiceOptions">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectCustomerServiceOption(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+  
+        <div *ngIf="showAccountManagement" class="customer-service-options transition-fade">
+          <div class="option" *ngFor="let option of accountManagement">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectAccountManagement(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+  
+        <div *ngIf="showUpdateAccount" class="customer-service-options transition-fade">
+          <div class="option" *ngFor="let option of updateAccount">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectUpdateAccount(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+  
+        <div *ngIf="showPhoneNumberInput">
+          <input id="phoneNumberInput" type="text" [(ngModel)]="phoneNumber" placeholder="Enter phone number" class="form-control mb-2" />
+          <button class="btn btn-primary" (click)="submitPhoneNumber()">Submit</button>
+        </div>
+  
+        <div *ngIf="showPasswordInput">
+          <input id="newPasswordInput" type="password" [(ngModel)]="newPassword" placeholder="Enter New Password" class="form-control mb-2" />
+          <input id="confirmPasswordInput" type="password" [(ngModel)]="confirmPassword" placeholder="Confirm Password" class="form-control mb-2" />
+          <button class="btn btn-primary" (click)="submitPassword()">Submit</button>
+        </div>
+  
+        <div *ngIf="showAddressForm" class="address-form transition-fade">
+          <form (ngSubmit)="submitAddressForm()">
+            <label for="address">Address:</label>
+            <input id="address" [(ngModel)]="address" name="address" type="text" placeholder="Enter address" class="form-control mb-2" />
+  
+            <label for="city">City:</label>
+            <input id="city" [(ngModel)]="city" name="city" type="text" placeholder="Enter city" class="form-control mb-2" />
+  
+            <label for="state">State:</label>
+            <input id="state" [(ngModel)]="state" name="state" type="text" placeholder="Enter state" class="form-control mb-2" />
+  
+            <label for="country">Country:</label>
+            <input id="country" [(ngModel)]="country" name="country" type="text" placeholder="Enter country" class="form-control mb-2" />
+  
+            <label for="pinCode">Pin Code:</label>
+            <input id="pinCode" [(ngModel)]="pinCode" name="pinCode" type="text" placeholder="Enter pin code" class="form-control mb-2" />
+  
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+    
+        <div *ngIf="showOthersOptions" class="others-options transition-fade">
+          <div class="option" *ngFor="let option of othersOptions">
+            <button class="btn btn-outline-secondary btn-block mb-2" (click)="selectOthersOption(option)">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+
+        </div>
+      
+        <div class="chat-input-group">
+            
+          <input 
+            type="text" 
+            class="form-control" 
+            [(ngModel)]="message" 
+            placeholder="Type a message..." 
+          />
+          <div class="btn btn-mic" >
+            <i class="bi bi-mic"></i>
+        </div>
+          
+          <button 
+            class="btn btn-primary" 
+            (click)="sendMessage()"
+          >
+
+          <i class="bi bi-send-fill "></i>
+          </button>
+        </div>
+      </div>
+      
+</div> -->

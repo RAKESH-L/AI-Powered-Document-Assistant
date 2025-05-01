@@ -1,0 +1,190 @@
+<div class="chat-container">
+    <div class="side-menu flex-lg-column">
+        <img src="assets/images/logo.svg" alt="" height="30">
+        <i class="bi bi-person-badge" (click)="showProfile()"></i>
+        <i class="bi bi-discord" (click)="showDiscordWindow()"></i>
+
+        <!-- Image that triggers the popup -->
+        <img 
+          src="assets/images/MyPic.jpg" 
+          alt="Bottom Icon" 
+          class="bottom-icon" 
+          (click)="togglePopup()"
+        >
+        
+        <!-- Popup window with options (shown on click) -->
+        <div class="popup-window" *ngIf="isPopupVisible">
+            <ul>
+                <li (click)="doAction1()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Profile</div>
+                      <div class="col-2"><i class="bi bi-person"></i></div>
+                    </div>
+                  </div></li>
+                <li (click)="doAction2()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Change Password</div>
+                      <div class="col-2"><i class="bi bi-shield-lock"></i></div>
+                    </div>
+                  </div></li>
+                  <hr>
+                <li (click)="doAction3()"><div class="container">
+                    <div class="row icon ">
+                      <div class="col-9 popup-info">Logout</div>
+                      <div class="col-2"><i class="bi bi-box-arrow-left"></i></div>
+                    </div>
+                  </div></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar2" >
+      <div class="container" *ngIf="!isProfileVisible">
+        <div class="row sidebar2-header">
+          <!-- Split the title and icon into separate columns -->
+          <div class="col sidebar2-title">My Profile</div>
+          <div class="col-auto">
+            <i class="bi bi-three-dots-vertical"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col profile-image-container">
+            <img src="assets/images/MyPic.jpg" alt="Profile Image" class="profile-image">
+          </div>
+        </div>
+        <div class="container">
+            <div class="row">
+              <div class="col name">Rakesh L</div>
+              <div class="w-100"></div>
+              <div class="col name1">active</div>
+            </div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="row icon ">
+              <p class="col profile-intro">A professional profile is an introductory section on your resume that highlights your relevant qualifications and skills.</p>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon ">
+              <div class="col-2 profile-icon" ><i class="bi bi-person-check"></i></div>
+              <div class="col-9 profile-info">Rakesh L</div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-phone"></i></div>
+              <div class="col-9 profile-info">8050036244</div>
+              
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-mailbox"></i></div>
+              <div class="col-9 profile-info">rakesh.lokeshgmail.com</div>
+              
+            </div>
+          </div>
+          <div class="container">
+            <div class="row icon " style="margin-top: 20px;">
+              <div class="col-2 profile-icon"><i class="bi bi-geo"></i></div>
+              <div class="col-9 profile-info">Karnataka, India</div>
+              
+            </div>
+          </div>
+      </div>
+
+      <div class="sidebar2-header" *ngIf="isDiscordWindowVisible">
+        <i class="bi bi-discord"></i> Discord
+      </div>
+    </div>
+
+    <div class="chat-area">
+        <!-- Chat window header -->
+        <div class="chat-top-row d-flex align-items-center justify-content-between">
+            <!-- Chat header logo and title -->
+            <div class="d-flex align-items-center">
+              <img src="assets/images/logo.svg" alt="Icon" class="top-row-icon ">
+              <p class="mb-0">ChatBot</p>
+            </div>
+            
+            <!-- Icon aligned to the right -->
+            <div class="ml-auto">
+                <!-- <i class="fa-solid fa-cog fa-spin"></i> -->
+
+              <i class=" bi bi-gear-fill fa-solid fa-cog fa-spin" style="font-size: 1.1rem; cursor: pointer; color: #06D6A0; margin-right: 10px;" (click)="openSettings()"></i>
+            </div>
+          </div>
+      
+        <!-- Chat window -->
+        <div class="chat-window">
+          <!-- <div class="chat-message d-flex justify-content-end mb-4">
+            <div class="user-message alert">
+              Hi, can you help me with my order status?
+            </div>
+          </div> -->
+      
+
+          <div class="chat-message">
+            <div class="bot-message-container d-flex">
+                <img src="assets/images/bot.jpg" alt="Bot Avatar" class="bot-avatar">
+                <div class="bot-message alert">
+
+                    <label for="file">Upload PDF</label>
+                    <input type="file" class="form-control" id="file" (change)="onFileSelected($event)" accept=".pdf">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="chat-message">
+            <div class="bot-message-container d-flex">
+                <img src="assets/images/bot.jpg" alt="Bot Avatar" class="bot-avatar">
+                <div class="bot-message alert">
+                    <label for="file" class="custom-file-upload">
+                        <i class="fa-solid fa-file-lines" style="--fa-primary-color: #1e58be; --fa-secondary-color: #1e58be;"></i> Upload PDF
+                    </label>
+                    <input type="file" class="form-control" id="file" (change)="onFileSelected($event)" accept=".pdf" style="display: none;">
+                </div>
+            </div>
+        </div>
+         -->
+
+        <div *ngFor="let msg of messages">
+            <div *ngIf="msg.type === 'user'" class="chat-message d-flex justify-content-end mb-4">
+              <div class="user-message alert">{{ msg.text }}</div>
+            </div>
+            <div *ngIf="msg.type === 'bot'" class="chat-message">
+              <div class="bot-message-container d-flex">
+                <img src="assets/images/bot.jpg" alt="Bot Avatar" class="bot-avatar">
+                <!-- <div class="bot-message alert">{{ msg.text }}</div> -->
+                <div class="bot-message alert" [innerHTML]="msg.text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Input area for the chat -->
+        <div class="chat-input-group">
+            
+          <input 
+            type="text" 
+            class="form-control" 
+            [(ngModel)]="question" 
+            placeholder="Type a message..." 
+            (keyup.enter)="onSubmit()"
+          />
+          <div class="btn btn-mic" >
+            <i class="bi bi-mic"></i>
+        </div>
+          
+          <button 
+            class="btn btn-primary" 
+            (click)="onSubmit()"
+          >
+
+          <i class="bi bi-send-fill "></i>
+          </button>
+        </div>
+      </div>
+      
+</div>
